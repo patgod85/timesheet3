@@ -1,0 +1,14 @@
+{
+  "name": "timesheet3-client",
+  "title": "Timesheet 3 client",
+  "version": "3.0.1",
+  "private": true,
+  "dependencies": {
+    "basisjs": "^1.9.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "basisjs-tools-babel-plugin": "^1.0.1"
+  }
+}
