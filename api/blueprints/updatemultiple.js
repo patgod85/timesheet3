@@ -3,7 +3,6 @@
  */
 
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
-var util = require('util');
 var _ = require('lodash');
 
 
@@ -17,11 +16,16 @@ var _ = require('lodash');
  *
  */
 module.exports = function updateMultipleRecords(req, res) {
-    var Model;
+    var Model,
+        promises = [];
 
     Model = actionUtil.parseModel(req);
 
     req.body.items.map(function (item) {
+
+        if(!item.id){
+            delete(item.id);
+        }
 
         promises.push(
             new Promise(function(resolve, reject) {
@@ -38,7 +42,7 @@ module.exports = function updateMultipleRecords(req, res) {
                         // record was returned, something is amiss.
                         if (!records || !records.length || records.length > 1) {
                             req._sails.log.warn(
-                                util.format('Unexpected output from `%s.update`.', Model.globalId)
+                                'Unexpected output from ' + Model.globalId + '.update.'
                             );
                         }
 

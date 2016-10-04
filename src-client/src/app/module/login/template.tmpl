@@ -1,0 +1,20 @@
+<form action="/auth/login">
+    <div class="alert alert-danger" b:show="{error}">
+        Error: {error}
+    </div>
+
+    <h1>
+        Authorization
+    </h1>
+
+    <label>
+        Email:
+        <input type="text" name="email" value="{email}" event-input="input"/>
+    </label>
+    <label>
+        Password:
+        <input type="password" name="password" value="{password}" event-input="input"/>
+    </label>
+
+    <button class="btn btn-primary btn-lg" event-click="login" disabled="{disabled}">Login</button>
+</form>

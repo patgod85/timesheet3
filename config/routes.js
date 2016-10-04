@@ -45,7 +45,7 @@ module.exports.routes = {
      * for configuration options and examples.                                  *
      *                                                                          *
      ***************************************************************************/
-    'POST /teams': {
+    'POST /team': {
         model: 'team',
         blueprint: 'updatemultiple'
     }

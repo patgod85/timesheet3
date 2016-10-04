@@ -1,23 +1,20 @@
 let Value = require('basis.data').Value;
 let Expression = require('basis.data.value').Expression;
-let DataObject = require('basis.data').Object;
+let MasterPage = require('../MasterPage');
+import Team from '../../../type/team';
+let dataSource = Team.all;
 let STATE = require('basis.data').STATE;
-let Node = require('basis.ui').Node;
 
-let action = require('basis.net.action');
 
-import dataSet from './dataset';
+export default new MasterPage({
+    name: "TeamsPage",
 
-export default new Node({
-    // container: document.querySelector('.container'),
-    container: document.body,
+    template: resource('./list.tmpl'),
+    dataSource: dataSource,
 
-    active: true,
-    dataSource: dataSet,
     // Node#disabled - одно из особых свойств, значение которого автоматически пробрасывается в binding не только текущего компонента, но дочерних
     disabled: Value.query('childNodesState').as(state => state != STATE.READY),
 
-    template: resource('./template/list.tmpl'),
     binding: {
         loading: Value.query('childNodesState').as(state => state == STATE.PROCESSING),
         empty: node => new Expression(
@@ -26,42 +23,32 @@ export default new Node({
             (state, itemCount) => !itemCount && (state == STATE.READY || state == STATE.ERROR)
         )
     },
-    action: {
-        // добавить новый объект в набор
+
+    action:{
+
         add() {
-            dataSet.add(new DataObject({data: {code: 'new'}}))
+            Team({code: 'new', id: undefined})
         },
         save() {
-            dataSet.save()
+            Team.all.save()
         }
     },
 
 
     childClass: {
-        template: resource('./template/item.tmpl'),
+        template: resource('./item.tmpl'),
         binding: {
-            name: 'data:'
-        },
-        action: {
-            input(e) {
-                this.update({name: e.sender.value})
-            },
-            onDelete() {
-                // this.parentNode.dataSource.remove(this.delegate);
-                this.remove();
-            }
+            name: 'data:',
+            code: 'data:'
         },
 
-        remove: action.create({
-            request(){
-                return {
-                    url: '/api/teams/' + this.data.id,
-                    method: 'delete'
-                };
+        action: {
+            input(e) {
+                this.update({[e.sender.name]: e.sender.value})
             },
-            success(){
+            onDelete() {
                 this.delegate.destroy();
             }
-        })
+        },
     }
 });
