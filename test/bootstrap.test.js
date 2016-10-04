@@ -1,4 +1,5 @@
 var sails = require('sails');
+//noinspection JSUnusedLocalSymbols
 var should = require('should');
 
 before(function (done) {
@@ -11,10 +12,13 @@ before(function (done) {
         models: {
             connection: 'localDiskDb'
         },
-        port: 1338
+        port: 1338,
 
+        policies: {
+            '*': true
+        }
 
-    }, function (err, server) {
+    }, function (err) {
         if (err) return done(err);
         // here you can load fixtures, etc.
         done(err, sails);

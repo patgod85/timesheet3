@@ -14,10 +14,10 @@ describe('TeamController', function() {
 
     });
 
-    describe('POST /teams', function() {
+    describe('POST /team', function() {
         it('update or create an array', function (done) {
             request(sails.hooks.http.app)
-                .post('/teams')
+                .post('/team')
                 .send({"items": [{id: 1, "name":"koa1"}, {id: 2, "name":"koa2", code: '2'}]})
                 .expect(200)
                 .then(function(){
@@ -31,10 +31,10 @@ describe('TeamController', function() {
         });
     });
 
-    describe('PUT /teams/update/1', function() {
+    describe('PUT /team/update/1', function() {
         it('should update passed object', function (done) {
             request(sails.hooks.http.app)
-                .put('/teams/update/1')
+                .put('/team/update/1')
                 .send({"name":"koa", employees: []})
                 .expect(200)
                 .then(function(){
